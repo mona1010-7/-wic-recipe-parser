@@ -943,12 +943,10 @@ def render_results(
         other_items = shopping.get("Other", [])
         if other_items:
             with st.expander(f"Other ({len(other_items)})"):
-                for item in other_items:
-                    # Use a unique index to guarantee no duplicate keys
-for idx, item in enumerate(items):
-    safe_key = f"shop_{category}_{idx}_{re.sub(r'[^a-zA-Z0-9]', '_', item)[:30]}"
-    st.checkbox(item, key=f"shop_{category}_{hash(item + str(servings)) % 10000}_{servings}")
-    
+                # Use a unique index to guarantee no duplicate keys
+                for idx, item in enumerate(other_items):
+                    safe_key = f"shop_Other_{idx}_{re.sub(r'[^a-zA-Z0-9]', '_', item)[:30]}_{servings}"
+                    st.checkbox(item, key=safe_key)
 
         export_text = build_export_text(recipe, ingredients, substitutions, servings, original_text)
         d1, d2, d3 = st.columns(3)
